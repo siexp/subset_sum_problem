@@ -1,64 +1,11 @@
+#include "value_independent_knapsack_problem_dp_solver.hpp"
+
 #include <algorithm>
-#include <deque>
 #include <iostream>
 #include <iterator>
-#include <numeric>
+#include <cstdint>
 #include <vector>
-
-void restore_path(const std::vector<uint32_t>& I, const std::vector<std::vector<uint32_t>>& subset, std::vector<uint32_t>& M, uint32_t i, uint32_t j)
-{
-    if (i == 0 || j == 0)
-        return;
-
-    if (subset[i][j] == subset[i-1][j])
-    {
-        restore_path(I, subset, M, i - 1, j);
-    }
-    else
-    {
-        restore_path(I, subset, M, i - 1, j - I[i]);
-        M.push_back( I[i] );
-    }
-}
-
-void find_largest_sum(uint32_t T, const std::vector<uint32_t>& I, std::vector<uint32_t>& M, uint32_t& S)
-{
-    if (I.empty())
-    {
-        throw std::logic_error{"I is empty"};
-    }
-
-    const auto input_size = I.size();
-    std::vector<std::vector<uint32_t>> subset;
-    subset.resize(input_size + 1);
-    for (uint32_t i = 0; i <= input_size; i++)
-    {
-        subset[i].resize(T + 1);
-        for (uint32_t j = 0; j <= T; j++)
-        {
-            subset[i][j] = 0;
-        }
-    }
-
-    for (uint32_t i = 1; i <= input_size; i++)
-    {
-        for (uint32_t j = 1; j <= T; j++)
-        {
-            if (j < I[i])
-            {
-                subset[i][j] = subset[i - 1][j];
-            }
-            else
-            {
-                subset[i][j] = std::max(subset[i - 1][j], subset[i - 1][j - I[i]] + I[i]);
-            }
-        }
-    }
-
-    restore_path(I, subset, M, input_size, T);
-
-    S = subset[input_size][T];
-}
+#include <stdexcept>
 
 void default_test()
 {
@@ -81,11 +28,10 @@ void default_test()
 
     if (!subset_equal)
     {
-        std::copy( std::cbegin( result ), std::cend( result ), std::ostream_iterator< uint32_t >( std::cerr, " " ) );
-        throw std::logic_error{"incorrect subset"};
+        std::copy(std::cbegin(result), std::cend(result), std::ostream_iterator<uint32_t>(std::cerr, " "));
+        throw std::logic_error{"incorrect solutions_cache"};
     }
 }
-
 
 void t_is_more_then_array_sum_test()
 {
@@ -108,12 +54,10 @@ void t_is_more_then_array_sum_test()
 
     if (!subset_equal)
     {
-        std::copy( std::cbegin( result ), std::cend( result ), std::ostream_iterator< uint32_t >( std::cerr, " " ) );
-        throw std::logic_error{"incorrect subset"};
+        std::copy(std::cbegin(result), std::cend(result), std::ostream_iterator<uint32_t>(std::cerr, " "));
+        throw std::logic_error{"incorrect solutions_cache"};
     }
 }
-
-
 
 void t_is_less_then_array_sum_test()
 {
@@ -136,8 +80,8 @@ void t_is_less_then_array_sum_test()
 
     if (!subset_equal)
     {
-        std::copy( std::cbegin( result ), std::cend( result ), std::ostream_iterator< uint32_t >( std::cerr, " " ) );
-        throw std::logic_error{"incorrect subset"};
+        std::copy(std::cbegin(result), std::cend(result), std::ostream_iterator<uint32_t>(std::cerr, " "));
+        throw std::logic_error{"incorrect solutions_cache"};
     }
 }
 
@@ -162,16 +106,15 @@ void t_is_unreachable_test()
 
     if (!subset_equal)
     {
-        std::copy( std::cbegin( result ), std::cend( result ), std::ostream_iterator< uint32_t >( std::cerr, " " ) );
-        throw std::logic_error{"incorrect subset"};
-    }   
+        std::copy(std::cbegin(result), std::cend(result), std::ostream_iterator<uint32_t>(std::cerr, " "));
+        throw std::logic_error{"incorrect solutions_cache"};
+    }
 }
-
 
 void subset_is_always_equal_test()
 {
     const uint32_t T = 1;
-    const std::vector<uint32_t> I = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+    const std::vector<uint32_t> I = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 
     std::vector<uint32_t> result;
     auto S = std::numeric_limits<uint32_t>::max();
@@ -189,15 +132,15 @@ void subset_is_always_equal_test()
 
     if (!subset_equal)
     {
-        std::copy( std::cbegin( result ), std::cend( result ), std::ostream_iterator< uint32_t >( std::cerr, " " ) );
-        throw std::logic_error{"incorrect subset"};
+        std::copy(std::cbegin(result), std::cend(result), std::ostream_iterator<uint32_t>(std::cerr, " "));
+        throw std::logic_error{"incorrect solutions_cache"};
     }
 }
 
 void large_allocation_test()
 {
-    const uint32_t T = std::numeric_limits< uint32_t >::max();
-    const auto I = std::vector<uint32_t>{ 1000 };
+    const uint32_t T = std::numeric_limits<uint32_t>::max();
+    const auto I = std::vector<uint32_t>{1000};
 
     std::vector<uint32_t> result;
     auto S = std::numeric_limits<uint32_t>::max();
