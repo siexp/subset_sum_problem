@@ -9,6 +9,8 @@
 
 void default_test()
 {
+    std::cout << __FUNCTION__ << std::endl;
+    
     const uint32_t T = 11;
     const std::vector<uint32_t> I = {1, 2, 3, 4, 5, 6, 7};
 
@@ -35,6 +37,8 @@ void default_test()
 
 void t_is_more_then_array_sum_test()
 {
+    std::cout << __FUNCTION__ << std::endl;
+
     const uint32_t T = 100;
     const std::vector<uint32_t> I = {0, 10, 11, 12, 13, 14, 15};
 
@@ -61,6 +65,8 @@ void t_is_more_then_array_sum_test()
 
 void t_is_less_then_array_sum_test()
 {
+    std::cout << __FUNCTION__ << std::endl;
+
     const uint32_t T = 100;
     const std::vector<uint32_t> I = {0, 12, 43, 11, 67, 20, 1, 4, 7, 31, 55, 6};
 
@@ -87,6 +93,8 @@ void t_is_less_then_array_sum_test()
 
 void t_is_unreachable_test()
 {
+    std::cout << __FUNCTION__ << std::endl;
+
     const uint32_t T = 59;
     const std::vector<uint32_t> I = {0, 12, 22, 10, 12, 40, 32};
 
@@ -113,6 +121,8 @@ void t_is_unreachable_test()
 
 void subset_is_always_equal_test()
 {
+    std::cout << __FUNCTION__ << std::endl;
+
     const uint32_t T = 1;
     const std::vector<uint32_t> I = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 
@@ -139,6 +149,8 @@ void subset_is_always_equal_test()
 
 void large_allocation_test()
 {
+    std::cout << __FUNCTION__ << std::endl;
+
     const uint32_t T = std::numeric_limits<uint32_t>::max();
     const auto I = std::vector<uint32_t>{1000};
 
